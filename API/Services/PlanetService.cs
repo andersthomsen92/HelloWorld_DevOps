@@ -29,8 +29,8 @@ public class PlanetService
             "Neptune"
         };
 
-        // This Randomizer will be out of bounds for the array index
-        // Entered Get TextController Catch Block with error: Index was outside the bounds of the array. 
+        // This Randomizer will occasionally be out of bounds for the array index 
+        // Error from logging : Entered Get TextController Catch Block with error: Index was outside the bounds of the array. 
         var index = new Random(DateTime.Now.Millisecond).Next(1, planets.Length+1);
         
         var selectedPlanet = planets[index];
