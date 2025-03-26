@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace API.Services;
 
 public class GreetingService
@@ -14,6 +16,11 @@ public class GreetingService
     
     public GreetingResponse Greet(Messages.GreetingRequest request)
     {
+        
+        using var activity = MonitorService.ActivitySource.StartActivity(ActivityKind.Internal);
+        MonitorService.Log.Debug("GreetingService.Greet() called for language: {LanguageCode}", request.LanguageCode);
+
+        
         var language = request.LanguageCode;
         var greeting = language switch
         {
@@ -30,11 +37,17 @@ public class GreetingService
             "hi" => "नमस्ते",
             "sw" => "Hujambo"
         };
+        
+        MonitorService.Log.Debug("Generated greeting: {Greeting} for language: {LanguageCode}", greeting, language);
+
         return new GreetingResponse { Greeting = greeting };
     }
     
     public string[] GetLanguages()
     {
+        MonitorService.Log.Information("Using public string array in Greeting Service.");
+        
         return new [] { "en", "es", "fr", "de", "it", "pt", "ru", "zh", "ya", "ar", "hi", "sw" };
+        
     }
 }
